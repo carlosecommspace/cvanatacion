@@ -12,6 +12,9 @@ const pool = new Pool({
 });
 
 async function initDB() {
+  console.log('Conectando a la base de datos...');
+  console.log('DATABASE_URL presente:', !!process.env.DATABASE_URL);
+
   await pool.query(`
     CREATE TABLE IF NOT EXISTS swimmers (
       id SERIAL PRIMARY KEY,
@@ -20,7 +23,10 @@ async function initDB() {
       share_number INTEGER,
       created_at TIMESTAMPTZ DEFAULT NOW()
     );
+  `);
+  console.log('Tabla swimmers creada/verificada.');
 
+  await pool.query(`
     CREATE TABLE IF NOT EXISTS meters_log (
       id SERIAL PRIMARY KEY,
       swimmer_id INTEGER NOT NULL REFERENCES swimmers(id),
@@ -30,10 +36,12 @@ async function initDB() {
       created_at TIMESTAMPTZ DEFAULT NOW()
     );
   `);
+  console.log('Tabla meters_log creada/verificada.');
+  console.log('Base de datos inicializada correctamente.');
 }
 
 initDB().catch(err => {
-  console.error('Error inicializando base de datos:', err);
+  console.error('Error inicializando base de datos:', err.message);
   process.exit(1);
 });
 
