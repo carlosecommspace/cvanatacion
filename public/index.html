@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Un Millón de Metros por Rafael Vidal - CVA</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <header>
+    <div class="header-content">
+      <h1>Un Millón de Metros</h1>
+      <p class="subtitle">por Rafael Vidal &mdash; Club CVA</p>
+    </div>
+  </header>
+
+  <nav id="main-nav">
+    <button class="nav-btn active" data-section="home" onclick="showSection('home')">
+      <span class="nav-icon">🏠</span> Inicio
+    </button>
+    <button class="nav-btn" data-section="swimmers" onclick="showSection('swimmers')">
+      <span class="nav-icon">🏊</span> Nadadores
+    </button>
+    <button class="nav-btn" data-section="log-meters" onclick="showSection('log-meters')">
+      <span class="nav-icon">📝</span> Registrar Metros
+    </button>
+    <button class="nav-btn" data-section="dashboard" onclick="showSection('dashboard')">
+      <span class="nav-icon">📊</span> Visualización
+    </button>
+  </nav>
+
+  <main>
+    <!-- HOME -->
+    <section id="section-home" class="section active">
+      <div class="home-cards">
+        <div class="home-card" onclick="showSection('swimmers')">
+          <div class="home-card-icon">🏊</div>
+          <h2>Registro de Nadadores</h2>
+          <p>Inscribe nuevos nadadores al reto del millón de metros</p>
+        </div>
+        <div class="home-card" onclick="showSection('log-meters')">
+          <div class="home-card-icon">📝</div>
+          <h2>Registrar Metros</h2>
+          <p>Registra los metros nadados en cada sesión de entrenamiento</p>
+        </div>
+        <div class="home-card" onclick="showSection('dashboard')">
+          <div class="home-card-icon">📊</div>
+          <h2>Visualización</h2>
+          <p>Observa el progreso total del club hacia el millón de metros</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SWIMMERS REGISTRATION -->
+    <section id="section-swimmers" class="section">
+      <h2 class="section-title">Registro de Nadadores</h2>
+      <form id="swimmer-form" class="form-card">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="first_name">Nombre *</label>
+            <input type="text" id="first_name" required placeholder="Nombre del nadador">
+          </div>
+          <div class="form-group">
+            <label for="last_name">Apellido *</label>
+            <input type="text" id="last_name" required placeholder="Apellido del nadador">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="birth_date">Fecha de Nacimiento</label>
+            <input type="date" id="birth_date">
+          </div>
+          <div class="form-group">
+            <label for="category">Categoría</label>
+            <select id="category">
+              <option value="">Seleccionar...</option>
+              <option value="Infantil">Infantil</option>
+              <option value="Juvenil">Juvenil</option>
+              <option value="Junior">Junior</option>
+              <option value="Senior">Senior</option>
+              <option value="Master">Master</option>
+            </select>
+          </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Registrar Nadador</button>
+      </form>
+
+      <div class="table-container">
+        <h3>Nadadores Registrados</h3>
+        <table id="swimmers-table">
+          <thead>
+            <tr>
+              <th>Nombre</th>
+              <th>Apellido</th>
+              <th>Categoría</th>
+              <th>Fecha Registro</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody id="swimmers-tbody"></tbody>
+        </table>
+        <p id="no-swimmers" class="empty-msg" style="display:none;">No hay nadadores registrados aún.</p>
+      </div>
+    </section>
+
+    <!-- LOG METERS -->
+    <section id="section-log-meters" class="section">
+      <h2 class="section-title">Registrar Metros Nadados</h2>
+      <form id="meters-form" class="form-card">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="swimmer_select">Nadador *</label>
+            <select id="swimmer_select" required>
+              <option value="">Seleccionar nadador...</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="meters">Metros Nadados *</label>
+            <input type="number" id="meters" min="1" required placeholder="Ej: 2000">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="session_date">Fecha de Sesión *</label>
+            <input type="date" id="session_date" required>
+          </div>
+          <div class="form-group">
+            <label for="notes">Notas</label>
+            <input type="text" id="notes" placeholder="Observaciones (opcional)">
+          </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Registrar Metros</button>
+      </form>
+
+      <div class="table-container">
+        <h3>Historial de Registros</h3>
+        <table id="meters-table">
+          <thead>
+            <tr>
+              <th>Fecha</th>
+              <th>Nadador</th>
+              <th>Metros</th>
+              <th>Notas</th>
+            </tr>
+          </thead>
+          <tbody id="meters-tbody"></tbody>
+        </table>
+        <p id="no-meters" class="empty-msg" style="display:none;">No hay registros de metros aún.</p>
+      </div>
+    </section>
+
+    <!-- DASHBOARD -->
+    <section id="section-dashboard" class="section">
+      <h2 class="section-title">Progreso hacia Un Millón de Metros</h2>
+
+      <div class="dashboard-summary">
+        <div class="summary-card highlight">
+          <div class="summary-number" id="total-meters">0</div>
+          <div class="summary-label">Metros Totales</div>
+        </div>
+        <div class="summary-card">
+          <div class="summary-number" id="total-percentage">0%</div>
+          <div class="summary-label">del Objetivo</div>
+        </div>
+        <div class="summary-card">
+          <div class="summary-number" id="total-swimmers">0</div>
+          <div class="summary-label">Nadadores</div>
+        </div>
+        <div class="summary-card">
+          <div class="summary-number" id="remaining-meters">1,000,000</div>
+          <div class="summary-label">Metros Restantes</div>
+        </div>
+      </div>
+
+      <div class="progress-container">
+        <div class="progress-bar-wrapper">
+          <div class="progress-bar" id="progress-bar" style="width: 0%"></div>
+        </div>
+        <div class="progress-labels">
+          <span>0</span>
+          <span>250K</span>
+          <span>500K</span>
+          <span>750K</span>
+          <span>1,000,000</span>
+        </div>
+      </div>
+
+      <div class="table-container">
+        <h3>Ranking por Nadador</h3>
+        <table id="ranking-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Nadador</th>
+              <th>Categoría</th>
+              <th>Sesiones</th>
+              <th>Metros Totales</th>
+            </tr>
+          </thead>
+          <tbody id="ranking-tbody"></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>Club de Natación CVA &mdash; Un Millón de Metros por Rafael Vidal</p>
+  </footer>
+
+  <div id="toast" class="toast"></div>
+
+  <script src="/app.js"></script>
+</body>
+</html>
