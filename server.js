@@ -23,7 +23,7 @@ db.exec(`
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     first_name TEXT NOT NULL,
     last_name TEXT NOT NULL,
-    category TEXT,
+    share_number INTEGER,
     created_at TEXT DEFAULT (datetime('now'))
   );
 
@@ -37,6 +37,15 @@ db.exec(`
     FOREIGN KEY (swimmer_id) REFERENCES swimmers(id)
   );
 `);
+
+// Migrate: rename category to share_number if needed
+const columns = db.prepare("PRAGMA table_info(swimmers)").all();
+const hasCategory = columns.some(c => c.name === 'category');
+const hasShareNumber = columns.some(c => c.name === 'share_number');
+if (hasCategory && !hasShareNumber) {
+  db.exec('ALTER TABLE swimmers RENAME COLUMN category TO share_number');
+  db.exec('UPDATE swimmers SET share_number = NULL');
+}
 
 // Middleware
 app.use(express.json());
@@ -52,13 +61,18 @@ app.get('/api/swimmers', (req, res) => {
 
 // Create a swimmer
 app.post('/api/swimmers', (req, res) => {
-  const { first_name, last_name, category } = req.body;
+  const { first_name, last_name, share_number } = req.body;
   if (!first_name || !last_name) {
     return res.status(400).json({ error: 'Nombre y apellido son requeridos' });
   }
+  if (share_number !== null && share_number !== undefined) {
+    if (!Number.isInteger(share_number) || share_number < 1 || share_number > 999) {
+      return res.status(400).json({ error: 'El número de acción debe ser entre 1 y 999' });
+    }
+  }
   const result = db.prepare(
-    'INSERT INTO swimmers (first_name, last_name, category) VALUES (?, ?, ?)'
-  ).run(first_name, last_name, category || null);
+    'INSERT INTO swimmers (first_name, last_name, share_number) VALUES (?, ?, ?)'
+  ).run(first_name, last_name, share_number || null);
   const swimmer = db.prepare('SELECT * FROM swimmers WHERE id = ?').get(result.lastInsertRowid);
   res.status(201).json(swimmer);
 });
@@ -94,7 +108,7 @@ app.get('/api/meters', (req, res) => {
 app.get('/api/summary', (req, res) => {
   const total = db.prepare('SELECT COALESCE(SUM(meters), 0) as total_meters FROM meters_log').get();
   const bySwimmer = db.prepare(`
-    SELECT s.id, s.first_name, s.last_name, s.category,
+    SELECT s.id, s.first_name, s.last_name, s.share_number,
            COALESCE(SUM(m.meters), 0) as total_meters,
            COUNT(m.id) as total_sessions
     FROM swimmers s

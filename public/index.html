@@ -32,6 +32,19 @@
   <main>
     <!-- HOME -->
     <section id="section-home" class="section active">
+      <div class="dates-banner">
+        <h2>Sumatoria de Metros</h2>
+        <div class="dates-row">
+          <div class="date-item">
+            <span class="date-label">Fecha de inicio:</span>
+            <span class="date-value">jueves 12 de febrero de 2026</span>
+          </div>
+          <div class="date-item">
+            <span class="date-label">Fecha de cierre:</span>
+            <span class="date-value">domingo 22 de febrero de 2026</span>
+          </div>
+        </div>
+      </div>
       <div class="home-cards">
         <div class="home-card" onclick="showSection('swimmers')">
           <div class="home-card-icon">🏊</div>
@@ -67,15 +80,8 @@
         </div>
         <div class="form-row">
           <div class="form-group">
-            <label for="category">Categoría</label>
-            <select id="category">
-              <option value="">Seleccionar...</option>
-              <option value="Infantil">Infantil</option>
-              <option value="Juvenil">Juvenil</option>
-              <option value="Junior">Junior</option>
-              <option value="Senior">Senior</option>
-              <option value="Master">Master</option>
-            </select>
+            <label for="share_number">Número de Acción *</label>
+            <input type="number" id="share_number" required min="1" max="999" placeholder="Ej: 123">
           </div>
         </div>
         <button type="submit" class="btn btn-primary">Registrar Nadador</button>
@@ -88,7 +94,7 @@
             <tr>
               <th>Nombre</th>
               <th>Apellido</th>
-              <th>Categoría</th>
+              <th>N° Acción</th>
               <th>Fecha Registro</th>
             </tr>
           </thead>
@@ -187,7 +193,7 @@
             <tr>
               <th>#</th>
               <th>Nadador</th>
-              <th>Categoría</th>
+              <th>N° Acción</th>
               <th>Sesiones</th>
               <th>Metros Totales</th>
             </tr>

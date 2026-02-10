@@ -121,6 +121,46 @@ main {
   display: inline-block;
 }
 
+/* Dates Banner */
+.dates-banner {
+  background: var(--white);
+  border-radius: var(--radius);
+  padding: 1.5rem 2rem;
+  box-shadow: var(--shadow);
+  margin-bottom: 1.5rem;
+  border-left: 4px solid var(--accent);
+}
+
+.dates-banner h2 {
+  font-size: 1.2rem;
+  color: var(--primary-dark);
+  margin-bottom: 0.8rem;
+}
+
+.dates-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+}
+
+.date-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.date-label {
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--text);
+}
+
+.date-value {
+  font-size: 0.9rem;
+  color: var(--primary);
+  font-weight: 500;
+}
+
 /* Home Cards */
 .home-cards {
   display: grid;

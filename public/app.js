@@ -44,7 +44,7 @@ async function loadSwimmers() {
       <tr>
         <td>${escapeHtml(s.first_name)}</td>
         <td>${escapeHtml(s.last_name)}</td>
-        <td>${s.category || '-'}</td>
+        <td>${s.share_number || '-'}</td>
         <td>${formatDate(s.created_at)}</td>
       </tr>
     `).join('');
@@ -58,7 +58,7 @@ document.getElementById('swimmer-form').addEventListener('submit', async (e) => 
   const data = {
     first_name: document.getElementById('first_name').value.trim(),
     last_name: document.getElementById('last_name').value.trim(),
-    category: document.getElementById('category').value || null
+    share_number: parseInt(document.getElementById('share_number').value) || null
   };
 
   try {
@@ -181,7 +181,7 @@ async function loadDashboard() {
         <tr>
           <td><span class="rank-number ${rankClass}">${i + 1}</span></td>
           <td>${escapeHtml(s.first_name)} ${escapeHtml(s.last_name)}</td>
-          <td>${s.category || '-'}</td>
+          <td>${s.share_number || '-'}</td>
           <td>${s.total_sessions}</td>
           <td><strong>${formatNumber(s.total_meters)}</strong> m</td>
         </tr>
