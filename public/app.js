@@ -59,7 +59,6 @@ document.getElementById('swimmer-form').addEventListener('submit', async (e) => 
   const data = {
     first_name: document.getElementById('first_name').value.trim(),
     last_name: document.getElementById('last_name').value.trim(),
-    birth_date: document.getElementById('birth_date').value || null,
     category: document.getElementById('category').value || null
   };
 

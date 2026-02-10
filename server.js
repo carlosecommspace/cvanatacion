@@ -23,7 +23,6 @@ db.exec(`
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     first_name TEXT NOT NULL,
     last_name TEXT NOT NULL,
-    birth_date TEXT,
     category TEXT,
     created_at TEXT DEFAULT (datetime('now'))
   );
@@ -53,13 +52,13 @@ app.get('/api/swimmers', (req, res) => {
 
 // Create a swimmer
 app.post('/api/swimmers', (req, res) => {
-  const { first_name, last_name, birth_date, category } = req.body;
+  const { first_name, last_name, category } = req.body;
   if (!first_name || !last_name) {
     return res.status(400).json({ error: 'Nombre y apellido son requeridos' });
   }
   const result = db.prepare(
-    'INSERT INTO swimmers (first_name, last_name, birth_date, category) VALUES (?, ?, ?, ?)'
-  ).run(first_name, last_name, birth_date || null, category || null);
+    'INSERT INTO swimmers (first_name, last_name, category) VALUES (?, ?, ?)'
+  ).run(first_name, last_name, category || null);
   const swimmer = db.prepare('SELECT * FROM swimmers WHERE id = ?').get(result.lastInsertRowid);
   res.status(201).json(swimmer);
 });
