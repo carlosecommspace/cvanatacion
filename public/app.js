@@ -46,7 +46,6 @@ async function loadSwimmers() {
         <td>${escapeHtml(s.last_name)}</td>
         <td>${s.category || '-'}</td>
         <td>${formatDate(s.created_at)}</td>
-        <td><button class="btn btn-danger" onclick="deleteSwimmer(${s.id}, '${escapeHtml(s.first_name)} ${escapeHtml(s.last_name)}')">Eliminar</button></td>
       </tr>
     `).join('');
   } catch (err) {
@@ -79,18 +78,6 @@ document.getElementById('swimmer-form').addEventListener('submit', async (e) => 
     showToast(err.message || 'Error al registrar nadador', 'error');
   }
 });
-
-async function deleteSwimmer(id, name) {
-  if (!confirm(`¿Estás seguro de eliminar a ${name}? Se eliminarán también todos sus registros de metros.`)) return;
-  try {
-    const res = await fetch(`/api/swimmers/${id}`, { method: 'DELETE' });
-    if (!res.ok) throw new Error();
-    showToast('Nadador eliminado', 'success');
-    loadSwimmers();
-  } catch (err) {
-    showToast('Error al eliminar nadador', 'error');
-  }
-}
 
 // === METERS LOG ===
 async function loadSwimmersDropdown() {

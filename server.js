@@ -63,17 +63,6 @@ app.post('/api/swimmers', (req, res) => {
   res.status(201).json(swimmer);
 });
 
-// Delete a swimmer
-app.delete('/api/swimmers/:id', (req, res) => {
-  const { id } = req.params;
-  db.prepare('DELETE FROM meters_log WHERE swimmer_id = ?').run(id);
-  const result = db.prepare('DELETE FROM swimmers WHERE id = ?').run(id);
-  if (result.changes === 0) {
-    return res.status(404).json({ error: 'Nadador no encontrado' });
-  }
-  res.json({ message: 'Nadador eliminado' });
-});
-
 // Log meters for a swimmer
 app.post('/api/meters', (req, res) => {
   const { swimmer_id, meters, session_date, notes } = req.body;
